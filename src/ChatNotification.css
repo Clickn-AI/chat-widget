@@ -1,0 +1,29 @@
+/* ChatNotification.css */
+.chat-notification {
+    position: fixed;
+    bottom: 120px; /* Adjust as needed to fit above the button */
+    right: 10px;
+    width: 400px;
+    direction: rtl;
+    background-color: #fff;
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .chat-notification span {
+    margin-right: 8px;
+  }
+  
+  @media screen and (max-width: 800px) {
+    .chat-notification {
+      width: 300px;
+    }
+}

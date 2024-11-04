@@ -1,0 +1,129 @@
+/* Override chat widget to support RTL */
+.rcw-conversation-container {
+    direction: rtl;
+    text-align: right;
+}
+
+.rcw-message-text {
+    direction: rtl;
+    text-align: right;
+}
+
+.rcw-new-message {
+    direction: rtl;
+    text-align: right;
+}
+.rcw-message-client {
+  flex-direction: row;
+}
+.rcw-avatar {
+  margin-right: 0;
+  margin-left: 10px;
+}
+/* Chat Header Background (Top Section) */
+.rcw-conversation-container .rcw-header {
+  background-color: #5556bb;
+}
+
+.rcw-message .rcw-response .rcw-message-text {
+  background-color: #f8f8fa; /* Change the color for bot responses */
+  color: #333333;
+}
+
+.rcw-message .rcw-client .rcw-message-text {
+  background-color: #8384e5; /* Change the color for user messages */
+  color: #f8f8fa;
+}
+
+/* Chat Button (Floating Icon) */
+.rcw-launcher {
+  background-color: #5556bb;
+}
+
+/* ChatWidget.css */
+.custom-chat-launcher {
+  position: fixed;
+  bottom: 50px;
+  right: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+}
+
+.custom-chat-launcher:hover {
+  background-color: #f0f0f0;
+}
+
+/* Notification Dot */
+.notification-dot {
+  position: absolute;
+  top: -5px; 
+  right: 37px; 
+  width: 12px;
+  height: 12px;
+  background-color: #5556bb; 
+  border-radius: 50%;
+  border: 2px solid #ffffff; 
+}
+
+.rcw-conversation-container::after {
+  content: "Powered by Hams.AI | هَمس";
+  display: block;
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  color: #666; 
+  background-color: #f9f9f9;
+  border-top: 1px solid #e0e0e0; 
+}
+
+.chat-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
+.chat-header .close-chat-button {
+  background-color: #5556bb;
+  color: #ffffff;
+  border: none;
+  width: 30px;
+  font-weight: 600;
+}
+
+.rcw-widget-container .rcw-send img {
+  display: none;
+}
+
+.rcw-widget-container .rcw-send {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px 24px; 
+  position: relative;
+}
+
+.rcw-widget-container .rcw-send::after {
+  content: '';
+  background-image: url('../src/sendIcon.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px 24px;
+  position: absolute;
+  top: -29px;
+  width: 24px;
+  height: 24px;
+}
+
+@media screen and (max-width: 800px) {
+  .rcw-conversation-container .rcw-close-button {
+      background-color: #5556bb;
+      display: none;
+    }
+  }
