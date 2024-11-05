@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('./assets/fonts/NotoSansArabic-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'MyCustomFont', sans-serif;
+}
+
 .App {
   text-align: center;
 }
