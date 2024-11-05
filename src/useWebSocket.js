@@ -1,8 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import React,{ useEffect, useState, useRef } from 'react';
 
 export function useWebSocket(url) {
   const [messages, setMessages] = useState([]); 
   const [status, setStatus] = useState('disconnected');
+  const [loading, setLoading] = useState(false);
+  const messageBuffer = React.useRef("");
   const websocket = useRef(null);
 
   useEffect(() => {
@@ -24,10 +26,15 @@ export function useWebSocket(url) {
       // Handle streaming responses and check for the end marker
       const message = event.data;
       if (message === '<ENDED/>') {
-        // Optional: Indicate end of message stream
-        setMessages((prev) => [...prev, { text: 'Conversation ended.', isStreamEnd: true }]);
+        setMessages((prev) => [
+          ...prev,
+          { text: messageBuffer.current, isStreamEnd: true }
+        ]);
+        setLoading(false); 
+        messageBuffer.current = "";
       } else {
-        setMessages((prev) => [...prev, { text: message, isStreamEnd: false }]);
+        messageBuffer.current += message;
+        setLoading(true);
       }
     };
 
@@ -41,10 +48,11 @@ export function useWebSocket(url) {
     if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
       websocket.current.send(msg);
       setMessages((prev) => [...prev, { text: msg, isUserMessage: true }]);
+      // setLoading(true); 
     } else {
       console.warn('WebSocket is not connected.');
     }
   };
 
-  return { messages, sendMessage, status };
+  return { messages, sendMessage, loading };
 }

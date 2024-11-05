@@ -5,37 +5,51 @@ import 'react-chat-widget/lib/styles.css';
 import './ChatWidget.css';
 import { useWebSocket } from './useWebSocket';
 
+// Loader component to show a spinner while waiting for the response
+// const Loader = () => (
+//   <div className="loader-message">
+//     <img src="/loading.gif" alt="Loading..." style={{ width: '24px', height: '24px' }} />
+//   </div>
+// );
+
+
 function App() {
-  const [showNotification, setShowNotification] = useState(true); 
-  // const { messages, sendMessage, status } = useWebSocket('ws://localhost:3000/chat');
+  const [showChatNotification, setShowChatNotification] = useState(false); 
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const { messages, sendMessage } = useWebSocket('ws://api-stg.hams.ai/chat');
 
-  // Send a welcome message once the component mounts
   useEffect(() => {
-    addResponseMessage("مرحبا! كيف يمكنني مساعدتك؟");
-  }, []);
+    // messages.forEach((message, index) => {
+    //   if (!message.isUserMessage && index === messages.length - 1) {
+    //     console.log(messages, "messages");
+    //     addResponseMessage(message.text); 
+    //     setLoading(false);
+    //   }
+    // });
+    const latestMessage = messages[messages.length - 1];
+    if (latestMessage && !latestMessage.isUserMessage) {
+      addResponseMessage(latestMessage.text);
+    }
+  }, [messages]);
 
-  // useEffect(() => {
-  //   messages.forEach((message) => {
-  //     if (!message.isUserMessage) {
-  //       addResponseMessage(message.text); 
-  //     }
-  //   });
-  // }, [messages]);
+  useEffect(() => {
+    setShowChatNotification(true);
+  }, []);
 
   const handleNewUserMessage = (message) => {
     console.log(`New message incoming! ${message}`);
-    // sendMessage(message);
-    // addResponseMessage('...'); 
-    addResponseMessage('رسالتك قد تم استلامها وسيتم الرد عليك في اقرب وقت ممكن');
+    sendMessage(message);
   };
 
   const openChat = () => {
-    setShowNotification(false);
+    setIsChatOpen(true);
+    setShowChatNotification(false);
     toggleWidget(); 
   };
 
   const closeChat = () => {
-    setShowNotification(true);
+    setIsChatOpen(false);
+    setShowChatNotification(false);
     toggleWidget(); 
   };
 
@@ -46,9 +60,9 @@ function App() {
       </header>
       {/* Conditionally render the notification */}
       {/* {showNotification && <ChatNotification onClick={openChat}/>} */}
-      {showNotification && (
+      {!isChatOpen && (
         <>
-          <ChatNotification onClick={openChat} />
+          {showChatNotification && <ChatNotification onClick={openChat} />}
           {/* Custom button below the notification */}
           <button onClick={openChat} className="custom-chat-launcher">
             <img src="/Logo.png" alt="Chat Icon" style={{ width: '30px', height: '30px'}} />
@@ -69,7 +83,9 @@ function App() {
         profileClientAvatar="/user.svg"
         emojis={true}
         launcher={() => null}
+        // showChatIcon={loading ? <img src="/loading.gif" alt="loading" /> : null}
       />
+      {/* {loading && <Loader />} */}
     </div>
   );
 }

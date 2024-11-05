@@ -26,13 +26,15 @@
 }
 
 .rcw-message .rcw-response .rcw-message-text {
-  background-color: #f8f8fa; /* Change the color for bot responses */
+  background-color: #f8f8fa; 
   color: #333333;
+  text-align: right;
 }
 
 .rcw-message .rcw-client .rcw-message-text {
   background-color: #8384e5; /* Change the color for user messages */
   color: #f8f8fa;
+  text-align: right;
 }
 
 /* Chat Button (Floating Icon) */
@@ -55,10 +57,12 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
+  
 }
 
 .custom-chat-launcher:hover {
   background-color: #f0f0f0;
+  /* animation: bounce 2s infinite; */
 }
 
 /* Notification Dot */
@@ -68,10 +72,23 @@
   right: 37px; 
   width: 12px;
   height: 12px;
-  background-color: #5556bb; 
+  background-color: #007500; 
   border-radius: 50%;
-  border: 2px solid #ffffff; 
+  border: 2px solid #9fd49f; 
 }
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateX(-5px);
+  }
+  60% {
+    transform: translateX(-10px);
+  }
+}
+
 
 .rcw-conversation-container::after {
   content: "Powered by Hams.AI | هَمس";
@@ -86,7 +103,7 @@
 
 .chat-header {
   position: absolute;
-  top: 0;
+  top: -4px;
   right: 0;
   padding: 10px;
 }
@@ -120,6 +137,30 @@
   width: 24px;
   height: 24px;
 }
+
+/* .loader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+.loader-message {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding-left: 20px; 
+} */
+
+.rcw-client .rcw-timestamp {
+  align-self: flex-start;
+}
+
+.rcw-conversation-container .rcw-header {
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 15px 0;
+}
+
 
 @media screen and (max-width: 800px) {
   .rcw-conversation-container .rcw-close-button {
