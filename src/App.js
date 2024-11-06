@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Widget, addResponseMessage, toggleWidget } from 'react-chat-widget';
+import { Widget, addResponseMessage, toggleWidget, deleteMessages } from 'react-chat-widget';
 import ChatNotification from './ChatNotification';
 import 'react-chat-widget/lib/styles.css';
 import './ChatWidget.css';
@@ -16,20 +16,19 @@ import { useWebSocket } from './useWebSocket';
 function App() {
   const [showChatNotification, setShowChatNotification] = useState(false); 
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const { messages, sendMessage } = useWebSocket('ws://api-stg.hams.ai/chat');
+  const [loading, setLoading] = useState(false);
+  const { messages, sendMessage } = useWebSocket('wss://api-stg.hams.ai/chat');
 
   useEffect(() => {
-    // messages.forEach((message, index) => {
-    //   if (!message.isUserMessage && index === messages.length - 1) {
-    //     console.log(messages, "messages");
-    //     addResponseMessage(message.text); 
-    //     setLoading(false);
-    //   }
-    // });
     const latestMessage = messages[messages.length - 1];
     if (latestMessage && !latestMessage.isUserMessage) {
-      addResponseMessage(latestMessage.text);
+      if (loading) {
+        deleteMessages(1); 
+        setLoading(false);
+      }
+      addResponseMessage(latestMessage.text); 
     }
+ 
   }, [messages]);
 
   useEffect(() => {
@@ -39,6 +38,8 @@ function App() {
   const handleNewUserMessage = (message) => {
     console.log(`New message incoming! ${message}`);
     sendMessage(message);
+    setLoading(true);
+    addResponseMessage("Loading...");
   };
 
   const openChat = () => {
@@ -85,7 +86,7 @@ function App() {
         launcher={() => null}
         // showChatIcon={loading ? <img src="/loading.gif" alt="loading" /> : null}
       />
-      {/* {loading && <Loader />} */}
+      {/* {loading && (<Loader />)}  */}
     </div>
   );
 }

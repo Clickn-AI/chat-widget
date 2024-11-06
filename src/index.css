@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@media screen and (max-width: 800px) {
+    /* .App .rcw-widget-container
+    {
+      margin: 0;
+    } */
+  }
