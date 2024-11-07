@@ -1,7 +1,7 @@
 /* ChatNotification.css */
 .chat-notification {
     position: fixed;
-    bottom: 120px; /* Adjust as needed to fit above the button */
+    bottom: 130px; /* Adjust as needed to fit above the button */
     right: 10px;
     width: 400px;
     direction: rtl;
@@ -25,5 +25,11 @@
   @media screen and (max-width: 800px) {
     .chat-notification {
       width: 300px;
+      /* bottom: 102px; */
     }
+}
+@media screen and (max-width: 400px) {
+  .chat-notification {
+    bottom: 110px;
+  }
 }

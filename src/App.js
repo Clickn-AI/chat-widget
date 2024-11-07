@@ -1,35 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import { Widget, addResponseMessage, toggleWidget, deleteMessages } from 'react-chat-widget';
+import {
+  Widget,
+  toggleWidget,
+  deleteMessages,
+  renderCustomComponent,
+  addResponseMessage
+} from 'react-chat-widget';
 import ChatNotification from './ChatNotification';
 import 'react-chat-widget/lib/styles.css';
 import './ChatWidget.css';
 import { useWebSocket } from './useWebSocket';
+import { ThreeDots } from 'react-loader-spinner';
 
-// Loader component to show a spinner while waiting for the response
-// const Loader = () => (
-//   <div className="loader-message">
-//     <img src="/loading.gif" alt="Loading..." style={{ width: '24px', height: '24px' }} />
-//   </div>
-// );
-
+function LoadingAvatar() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+      <img
+        src="/Logo.png"
+        alt="Loading Avatar"
+        style={{ width: '40px', height: '40px', borderRadius: '50%',alignSelf: 'flex-end' }}
+      />
+      <ThreeDots width="20" height="20" color="#5556BB" />
+    </div>
+  );
+}
 
 function App() {
-  const [showChatNotification, setShowChatNotification] = useState(false); 
+  const [showChatNotification, setShowChatNotification] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState(''); // To handle streaming text
   const { messages, sendMessage } = useWebSocket('wss://api-stg.hams.ai/chat');
+
+  // Function to simulate the auto-typing effect
+  const typeMessage = (message) => {
+    let i = 0;
+    setCurrentMessage('');
+    const interval = setInterval(() => {
+      setCurrentMessage((prev) => prev + message[i]);
+      i += 1;
+      if (i === message.length) {
+        clearInterval(interval); // Clear the interval when the message is fully typed
+        setLoading(false); // Stop loading when typing completes
+      }
+    }, 50); // Adjust the speed here (50 ms per character)
+  };
 
   useEffect(() => {
     const latestMessage = messages[messages.length - 1];
     if (latestMessage && !latestMessage.isUserMessage) {
       if (loading) {
-        deleteMessages(1); 
+        // deleteMessages(1); 
         setLoading(false);
       }
-      addResponseMessage(latestMessage.text); 
+      typeMessage(latestMessage.text);
     }
- 
   }, [messages]);
+
+  // Render each typed character as it updates in currentMessage
+  useEffect(() => {
+    if (currentMessage) {
+      deleteMessages(1); 
+      addResponseMessage(currentMessage);
+    }
+  }, [currentMessage]);
 
   useEffect(() => {
     setShowChatNotification(true);
@@ -39,19 +73,19 @@ function App() {
     console.log(`New message incoming! ${message}`);
     sendMessage(message);
     setLoading(true);
-    addResponseMessage("Loading...");
+    renderCustomComponent(LoadingAvatar); // Show loading avatar
   };
 
   const openChat = () => {
     setIsChatOpen(true);
     setShowChatNotification(false);
-    toggleWidget(); 
+    toggleWidget();
   };
 
   const closeChat = () => {
     setIsChatOpen(false);
     setShowChatNotification(false);
-    toggleWidget(); 
+    toggleWidget();
   };
 
   return (
@@ -59,14 +93,15 @@ function App() {
       <header className="App-header">
         <h1>My Chat Application</h1>
       </header>
-      {/* Conditionally render the notification */}
-      {/* {showNotification && <ChatNotification onClick={openChat}/>} */}
       {!isChatOpen && (
         <>
           {showChatNotification && <ChatNotification onClick={openChat} />}
-          {/* Custom button below the notification */}
           <button onClick={openChat} className="custom-chat-launcher">
-            <img src="/Logo.png" alt="Chat Icon" style={{ width: '30px', height: '30px'}} />
+            <img
+              src="/Logo.png"
+              alt="Chat Icon"
+              style={{ width: '40px', height: '40px' }}
+            />
             <div className="notification-dot"></div>
           </button>
         </>
@@ -75,18 +110,19 @@ function App() {
         handleNewUserMessage={handleNewUserMessage}
         title={
           <div className="chat-header">
-            <button className="close-chat-button" onClick={closeChat}>✕</button>
+            <button className="close-chat-button" onClick={closeChat}>
+              ✕
+            </button>
           </div>
         }
-        // title="مرحبا بكم"  
-        subtitle=" مساعد أكسبرو الذكي باستخدام الذكاء التوليدي"   
+        subtitle="مساعد أكسبرو الذكي باستخدام الذكاء التوليدي"
         profileAvatar="/Logo.png"
-        profileClientAvatar="/user.svg"
+        // profileClientAvatar="/user.svg"
         emojis={true}
         launcher={() => null}
-        // showChatIcon={loading ? <img src="/loading.gif" alt="loading" /> : null}
+        senderPlaceHolder="اكتب رسالتك هنا..."
+
       />
-      {/* {loading && (<Loader />)}  */}
     </div>
   );
 }
