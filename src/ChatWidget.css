@@ -1,21 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-
 .rcw-widget-container {
   font-family: 'Cairo', sans-serif !important;
   width: 420px !important;
-  height: 600px !important;
+  height: 720px !important;
   justify-content: flex-end;
+  z-index:1
 }
-
 .rcw-conversation-container {
   text-align: right;
   height: 96%;
 }
-
 .rcw-message-text,
 .rcw-new-message {
   direction: rtl;
-  text-align: right;
 }
 .rcw-new-message {
   width: 90%;
@@ -30,19 +27,22 @@
   margin-right: 10px;
   align-self: end;
 }
-
 .rcw-messages-container {
-  height: 100vh;}
+  height: 100vh;
+overflow:auto
+}
 /* Chat Header Background (Top Section) */
 .rcw-conversation-container .rcw-header {
-  background-color: #5556bb;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('./wave (1).svg');
+  background-color: #5253B9;
+  overflow: hidden !important;
 }
-
 .rcw-header span {
   font-size: 16px;
   font-weight: 500;
 }
-
 .rcw-message .rcw-response .rcw-message-text {
   background-color: #EFEFF1;
   color: #333333;
@@ -52,27 +52,24 @@
   font-size: 14px;
   max-width: 267px;
 }
-
 .rcw-message .rcw-client .rcw-message-text {
-  background-color: #8384e5;
-  color: #f8f8fa;
+  background-color: #8384E5;
+  color: #F8F8FA;
   text-align: right;
   border-radius: 20px 20px 5px 20px;
   padding: 8px 12px;
   font-size: 14px;
   max-width: 267px;
 }
-
 .rcw-launcher {
-  background-color: #5556bb;
+  background-color: #5556BB;
 }
-
 .custom-chat-launcher {
-  z-index: 1000;
+  z-index:30;
   position: fixed;
   bottom: 50px;
   right: 10px;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
   border: 1px solid #ddd;
   border-radius: 50%;
   padding: 10px;
@@ -84,12 +81,13 @@
   display: flex;
   align-items: center;
 }
-
-.custom-chat-launcher:hover {
-  background-color: #f0f0f0;
-  /* animation: bounce 2s infinite; */
+.custom-chat-launcher {
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for color and scale */
 }
-
+.custom-chat-launcher:hover {
+  background-color: #F0F0F0;
+  transform: scale(1.2);
+};
 /* Notification Dot */
 .notification-dot {
   position: absolute;
@@ -99,9 +97,8 @@
   height: 12px;
   background-color: #007500;
   border-radius: 50%;
-  border: 2px solid #9fd49f;
+  border: 2px solid #9FD49F;
 }
-
 @keyframes bounce {
   0%,
   20%,
@@ -117,7 +114,6 @@
     transform: translateX(-10px);
   }
 }
-
 .rcw-conversation-container::after {
   content: "Powered by Hams.AI | هَمس";
   display: block;
@@ -125,45 +121,44 @@
   padding: 2px;
   font-size: 12px;
   color: #666;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #E0E0E0;
 }
-
 .chat-header {
   position: absolute;
   top: 5px;
   left: 4px;
 }
 .chat-header .close-chat-button {
-  background-color: #5556bb;
-  color: #ffffff;
+  background-color: transparent;
+  color: #FFFFFF;
   border: none;
+  cursor:pointer;
   width: 30px;
   font-weight: 600;
 }
-
 .rcw-widget-container .rcw-send img {
   display: none;
 }
-
 .rcw-widget-container .rcw-send {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 24px 24px;
   position: relative;
 }
-
 .rcw-widget-container .rcw-send::after {
   content: "";
   background-image: url("../src/sendIcon.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 24px 24px;
+  background-color:#ffff;
+  padding:3px;
+  border-radius:50%;
+  background-size: 20px 20px;
   position: absolute;
   top: -29px;
   width: 24px;
   height: 24px;
 }
-
 /* .loader {
 display: flex;
 align-items: center;
@@ -174,18 +169,16 @@ margin-top: 10px;
 display: flex;
 align-items: center;
 margin-top: 10px;
-padding-left: 20px; 
+padding-left: 20px;
 } */
-
 .rcw-message.rcw-client {
   justify-content: flex-start;
   flex-direction: row;
 }
-
 /* User message text styling */
 .rcw-message.rcw-client .rcw-message-text {
-  background-color: #8384e5;
-  color: #ffffff;
+  background-color: #8384E5;
+  color: #FFFFFF;
   text-align: left;
   border-radius: 20px 20px 5px 20px;
   max-width: 80%;
@@ -196,30 +189,32 @@ padding-left: 20px;
   order: 1;
   margin-left: 10px;
 }
-
 .rcw-client .rcw-timestamp {
   align-self: flex-start;
   margin-left: 10px;
 }
-
 .rcw-conversation-container .rcw-header {
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
   padding: 15px;
 }
-
-rcw-sender {
-  background-color: #f9f9f9;
+.rcw-sender {
+  background-color: #ffff;
+  overflow: hidden !important;
+  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1); /* Shadow at the top */
 }
-
+.row-new-message .row-input{
+  overflow: hidden !important;
+  height:500px
+}
 @media screen and (max-width: 800px) {
   .rcw-widget-container {
-    width: 90% !important;
-    height: 80% !important;
+    width: 95% !important;
+    height: 100vh !important;
   }
   .rcw-conversation-container .rcw-close-button {
-    background-color: #5556bb;
+    background-color: #5556BB;
     display: none;
   }
 }
@@ -227,14 +222,13 @@ rcw-sender {
    .rcw-widget-container {
     width: 100% !important;
     height: 100% !important;
+    height: 100vh !important;
     border-radius: 0 !important;
   }
-  
   .rcw-conversation-container {
     max-width: 100vw;
     height: calc(100vh - 20px);
   }
-  
   .custom-chat-launcher {
     bottom: 20px;
     right: 10px;
