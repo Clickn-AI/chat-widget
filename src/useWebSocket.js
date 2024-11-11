@@ -4,11 +4,11 @@ export function useWebSocket(url) {
   const [messages, setMessages] = useState([]); 
   const [status, setStatus] = useState('disconnected');
   const [loading, setLoading] = useState(false);
+  const isWebSocketInitialized = useRef(false);
   const messageBuffer = React.useRef("");
   const websocket = useRef(null);
 
-  useEffect(() => {
-    // Connect to WebSocket
+  const initializeWebSocket = () => {
     websocket.current = new WebSocket(url);
     setStatus('connecting');
 
@@ -41,7 +41,14 @@ export function useWebSocket(url) {
     return () => {
       websocket.current.close();
     };
-  }, [url]);
+  }
+
+  const openConnection = () => {
+    if (!isWebSocketInitialized.current) {
+      initializeWebSocket();
+      isWebSocketInitialized.current = true; 
+    }
+  };
 
   // Function to send messages to the WebSocket
   const sendMessage = (msg) => {
@@ -54,5 +61,5 @@ export function useWebSocket(url) {
     }
   };
 
-  return { messages, sendMessage, loading };
+  return { messages, sendMessage, loading, openConnection };
 }

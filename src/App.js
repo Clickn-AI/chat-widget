@@ -33,7 +33,7 @@ function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentMessage, setCurrentMessage] = useState(""); // To handle streaming text
-  const { messages, sendMessage } = useWebSocket("wss://api-stg.hams.ai/chat");
+  const { messages, sendMessage, openConnection } = useWebSocket("wss://api-stg.hams.ai/chat");
   // Function to simulate the auto-typing effect
   const typeMessage = (message) => {
     let i = 0;
@@ -74,6 +74,7 @@ function App() {
     renderCustomComponent(LoadingAvatar); // Show loading avatar
   };
   const openChat = () => {
+    openConnection();
     setIsChatOpen(true);
     setShowChatNotification(false);
     toggleWidget();
