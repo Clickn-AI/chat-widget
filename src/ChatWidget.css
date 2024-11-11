@@ -204,6 +204,16 @@ padding-left: 20px;
   overflow: hidden !important;
   box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1); /* Shadow at the top */
 }
+/* Response message text styling */
+.rcw-message-text h3, .rcw-message-text ol, .rcw-message-text p, .rcw-message-text li {
+  margin: 0;
+  padding: 0;
+  line-height: 1.3;
+}
+
+.rcw-message-text ol {
+  list-style-position: inside; 
+}
 .row-new-message .row-input{
   overflow: hidden !important;
   height:500px
