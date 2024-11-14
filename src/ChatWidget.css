@@ -8,7 +8,7 @@
 }
 .rcw-conversation-container {
   text-align: right;
-  height: 96%;
+  height: 92%;
 }
 .rcw-message-text,
 .rcw-new-message {
@@ -120,8 +120,15 @@ overflow:auto
   text-align: center;
   padding: 2px;
   font-size: 12px;
+  /* color: #666; */
+  /* border-top: 1px solid #E0E0E0; */
+  
+  position: absolute;
+  bottom: 0;
+  width: 99%;
+  background-color: white;
   color: #666;
-  border-top: 1px solid #E0E0E0;
+  border-radius: 0 0 9px 9px;
 }
 .chat-header {
   position: absolute;
@@ -139,11 +146,23 @@ overflow:auto
 .rcw-widget-container .rcw-send img {
   display: none;
 }
+.rcw-sender {
+  overflow: hidden !important;
+  align-items: center;
+  position: relative;
+  /* box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);  */
+  box-shadow: 0px -2px 8px -2px rgba(0, 0, 0, 0.1);
+  border-radius: none;
+}
+.rcw-input {
+  max-height: 25px;
+  line-height: 27px;
+  /* font-size: 11px; */
+}
 .rcw-widget-container .rcw-send {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 24px 24px;
-  position: relative;
 }
 .rcw-widget-container .rcw-send::after {
   content: "";
@@ -155,7 +174,7 @@ overflow:auto
   border-radius:50%;
   background-size: 20px 20px;
   position: absolute;
-  top: -29px;
+  top: 9px;
   width: 24px;
   height: 24px;
 }
@@ -202,7 +221,9 @@ padding-left: 20px;
 .rcw-sender {
   background-color: #ffff;
   overflow: hidden !important;
-  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1); /* Shadow at the top */
+  box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1); 
+  padding-top: 0;
+  padding-bottom: 0;
 }
 /* Response message text styling */
 .rcw-message-text h3, .rcw-message-text ol, .rcw-message-text p, .rcw-message-text li {
@@ -227,6 +248,13 @@ padding-left: 20px;
     background-color: #5556BB;
     display: none;
   }
+  .rcw-conversation-container::after {
+    bottom: -4px;
+  }
+  .rcw-send::after {
+    z-index: 3;
+  }
+  
 }
 @media screen and (max-width: 440px) {
    .rcw-widget-container {
